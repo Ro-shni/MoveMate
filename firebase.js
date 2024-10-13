@@ -1,11 +1,12 @@
+
 // Import the functions you need from the SDKs you need
 // lib/firebase.js (or utils/firebase.js)
 
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { trace } from "firebase/performance";
-import { performance } from './firebase';
+//import { trace } from "firebase/performance";
+//import { performance } from './firebase';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
