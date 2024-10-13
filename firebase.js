@@ -10,13 +10,13 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAc2fl3Ab8eu_DTEO-Ro8B9vXB2hX6Q97w",
-  authDomain: "movemate-d955c.firebaseapp.com",
-  projectId: "movemate-d955c",
-  storageBucket: "movemate-d955c.appspot.com",
-  messagingSenderId: "629905031546",
-  appId: "1:629905031546:web:f4879d7b95336d6b9e16c3",
-  measurementId: "G-X21Y5QP1R4"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
