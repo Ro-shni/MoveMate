@@ -1,4 +1,3 @@
-
 // Import the functions you need from the SDKs you need
 // lib/firebase.js (or utils/firebase.js)
 
