@@ -1,13 +1,12 @@
-// Import necessary modules
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import tw from "tailwind-styled-components";
 import Map from "./Index_Page_Components/Map";
 import { useRouter } from "next/router";
 import RideSelector from "./Index_Page_Components/RideSelector";
 import Link from "next/link";
-import { db } from '../firebase'; // Adjust the path based on your structure
-import { collection, addDoc } from "firebase/firestore"; // Import Firestore functions
-import { getAnalytics, logEvent } from "firebase/analytics"; // Import Analytics functions
+import { db } from '../firebase';
+import { collection, addDoc } from "firebase/firestore";
+import { getAnalytics, logEvent } from "firebase/analytics"; 
 
 const Confirm = () => {
   const router = useRouter();
@@ -16,20 +15,18 @@ const Confirm = () => {
   const [pickupcoord, setPickupCoord] = useState([0, 0]);
   const [dropoffcoord, setDropoffCoord] = useState([0, 0]);
   const [chosenCar, setChosenCar] = useState(null);
-  const [rideDuration, setRideDuration] = useState(null); // Add rideDuration state
+  const [rideDuration, setRideDuration] = useState(null); 
 
-  // Initialize Firebase Analytics
   const analytics = getAnalytics();
 
   // Fetch pickup coordinates
-  const getPickupCoord = (pickup) => {
+  const getPickupCoord = useCallback((pickup) => {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickup}.json?` +
-        new URLSearchParams({
-          access_token:
-            "pk.eyJ1IjoiMjJiMDFhNDU3MSIsImEiOiJjbTI1bXp6ejMwdGpyMmtxczE3YjdkMWdrIn0.vR3Jo3g42sq164srmV-4Qg",
-          limit: 1,
-        })
+      new URLSearchParams({
+        access_token: "pk.eyJ1IjoiMjJiMDFhNDU3MSIsImEiOiJjbTI1bXp6ejMwdGpyMmtxczE3YjdkMWdrIn0.vR3Jo3g42sq164srmV-4Qg",
+        limit: 1,
+      })
     )
       .then((response) => response.json())
       .then((data) => {
@@ -38,17 +35,16 @@ const Confirm = () => {
         }
       })
       .catch((error) => console.error("Error fetching pickup coordinates:", error));
-  };
+  }, []);
 
   // Fetch dropoff coordinates
-  const getDropoffCoord = (dropoff) => {
+  const getDropoffCoord = useCallback((dropoff) => {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${dropoff}.json?` +
-        new URLSearchParams({
-          access_token:
-            "pk.eyJ1IjoiMjJiMDFhNDU3MSIsImEiOiJjbTI1bXp6ejMwdGpyMmtxczE3YjdkMWdrIn0.vR3Jo3g42sq164srmV-4Qg",
-          limit: 1,
-        })
+      new URLSearchParams({
+        access_token: "pk.eyJ1IjoiMjJiMDFhNDU3MSIsImEiOiJjbTI1bXp6ejMwdGpyMmtxczE3YjdkMWdrIn0.vR3Jo3g42sq164srmV-4Qg",
+        limit: 1,
+      })
     )
       .then((response) => response.json())
       .then((data) => {
@@ -57,51 +53,48 @@ const Confirm = () => {
         }
       })
       .catch((error) => console.error("Error fetching dropoff coordinates:", error));
-  };
+  }, []);
 
   // Fetch ride duration from Mapbox Directions API
-  const fetchRideDuration = () => {
+  const fetchRideDuration = useCallback(() => {
     fetch(
       `https://api.mapbox.com/directions/v5/mapbox/driving/${pickupcoord[0]},${pickupcoord[1]};${dropoffcoord[0]},${dropoffcoord[1]}?access_token=pk.eyJ1IjoiMjJiMDFhNDU3MSIsImEiOiJjbTI1bXp6ejMwdGpyMmtxczE3YjdkMWdrIn0.vR3Jo3g42sq164srmV-4Qg`
     )
       .then((res) => res.json())
       .then((data) => {
         if (data.routes && data.routes.length > 0) {
-          setRideDuration(data.routes[0].duration / 60); // Convert seconds to minutes
+          setRideDuration(data.routes[0].duration / 60); 
         }
       })
       .catch((error) => {
         console.error("Error fetching ride duration:", error);
       });
-  };
+  }, [pickupcoord, dropoffcoord]);
 
   useEffect(() => {
     if (pickup) getPickupCoord(pickup);
     if (dropoff) getDropoffCoord(dropoff);
-  }, [pickup, dropoff]);
+  }, [pickup, dropoff, getPickupCoord, getDropoffCoord]);
 
   useEffect(() => {
     if (pickupcoord && dropoffcoord) {
-      fetchRideDuration(); // Fetch ride duration after coordinates are set
+      fetchRideDuration();
     }
-  }, [pickupcoord, dropoffcoord]);
+  }, [pickupcoord, dropoffcoord, fetchRideDuration]);
 
   const handleConfirm = async () => {
     if (chosenCar && rideDuration) {
       try {
-        // Save the ride request to Firestore
         const rideRequest = {
           pickup: pickup,
           dropoff: dropoff,
           car: chosenCar.service,
           price: (rideDuration * chosenCar.multiplier).toFixed(2),
-          status: "Pending", // Default status
+          status: "Pending", 
         };
 
-        // Add the document to Firestore
         const docRef = await addDoc(collection(db, "rideRequests"), rideRequest);
 
-        // Log a custom event to Firebase Analytics
         logEvent(analytics, 'ride_requested', {
           pickup: pickup,
           dropoff: dropoff,
@@ -109,7 +102,6 @@ const Confirm = () => {
           price: (rideDuration * chosenCar.multiplier).toFixed(2),
         });
 
-        // Redirect to tracking page with the request ID
         router.push(`/tracking?requestId=${docRef.id}`);
       } catch (error) {
         console.error("Error creating ride request:", error);

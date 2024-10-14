@@ -18,7 +18,7 @@ const Header = () => {
         router.push('/login');
       }
     })
-  },[]);
+  },[router]);
   const namePicker  = ()=>{
     let max = 0;
     let nameTaken = "";
