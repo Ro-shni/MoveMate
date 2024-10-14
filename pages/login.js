@@ -29,7 +29,7 @@ const Login = () => {
     return (
         <Wrapper>
             <UberLogo>
-                <Logo src="https://i.ibb.co/n6LWQM4/Post.png" />
+                <Logo src="/images/logo.jpeg" />
             </UberLogo>
             <LoginPrompt>
                 Log in to access your account
