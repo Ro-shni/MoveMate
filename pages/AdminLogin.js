@@ -34,7 +34,7 @@ const AdminLogin = () => {
   return (
     <Wrapper>
       <UberLogo>
-        <Logo src="https://i.ibb.co/n6LWQM4/Post.png" />
+        <Logo src="/images/logo.jpeg" />
       </UberLogo>
       <LoginPrompt>Log in as Admin to access your dashboard</LoginPrompt>
       <LoginImg>
