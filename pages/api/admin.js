@@ -1,5 +1,5 @@
 // Import Firebase Admin SDK
-import { admin, db } from '../firebaseAdmin'; // Adjust your path
+import { admin, db } from '../../lib/firebaseAdmin'; // Adjust your path
 
 export default async function handler(req, res) {
   try {
