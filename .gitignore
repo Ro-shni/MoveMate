@@ -4,12 +4,13 @@
 node_modules/
 /.pnp
 .pnp.js
-
+/config/
 # testing
 /coverage
 
 # Firebase service account key
-movemate-d955c-firebase-adminsdk-bomrq-63df5ea03e.json
+# Ignore Firebase Admin SDK credentials
+config/movemate-d955c-firebase-adminsdk-bomrq-63df5ea03e.json
 
 # next.js
 /.next/

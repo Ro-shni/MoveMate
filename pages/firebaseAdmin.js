@@ -1,7 +1,7 @@
 // lib/firebaseAdmin.js
 
 const admin = require('firebase-admin');
-const serviceAccount = require('C:/Users/ramba/OneDrive/Desktop/MoveMate/movemate-d955c-firebase-adminsdk-bomrq-63df5ea03e.json');
+const serviceAccount = require('../config/movemate-d955c-firebase-adminsdk-bomrq-63df5ea03e.json'); 
 
 if (!admin.apps.length) {
   admin.initializeApp({
