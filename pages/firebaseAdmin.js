@@ -1,6 +1,6 @@
 // lib/firebaseAdmin.js
 
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
 //const serviceAccount = require('../config/movemate-d955c-firebase-adminsdk-bomrq-63df5ea03e.json'); 
 
 if (!admin.apps.length) {
