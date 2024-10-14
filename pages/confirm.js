@@ -15,9 +15,10 @@ const Confirm = () => {
   const [pickupcoord, setPickupCoord] = useState([0, 0]);
   const [dropoffcoord, setDropoffCoord] = useState([0, 0]);
   const [chosenCar, setChosenCar] = useState(null);
-  const [rideDuration, setRideDuration] = useState(null); 
+  const [rideDuration, setRideDuration] = useState(null);
+  const [analytics, setAnalytics] = useState(null); 
 
-  const analytics = getAnalytics();
+  //const analytics = getAnalytics();
 
   // Fetch pickup coordinates
   const getPickupCoord = useCallback((pickup) => {
@@ -81,6 +82,11 @@ const Confirm = () => {
       fetchRideDuration();
     }
   }, [pickupcoord, dropoffcoord, fetchRideDuration]);
+
+  useEffect(() => {
+    const analyticsInstance = getAnalytics();
+    setAnalytics(analyticsInstance);
+  }, []);
 
   const handleConfirm = async () => {
     if (chosenCar && rideDuration) {
