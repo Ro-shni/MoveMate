@@ -113,7 +113,7 @@ const Confirm = () => {
         console.error("Error creating ride request:", error);
       }
     } else if (!chosenCar) {
-      alert("Please select a car first!");
+      alert("Please select a Vehicle first!");
     } else {
       alert("Unable to calculate ride duration.");
     }
