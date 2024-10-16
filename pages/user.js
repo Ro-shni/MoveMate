@@ -3,8 +3,7 @@ import React from "react";
 import tw from "tailwind-styled-components";
 import Map from "./Index_Page_Components/Map";
 import Header from "./Index_Page_Components/Header";
-import ActionButton from "./Index_Page_Components/ActionButton";
-import WhereToButton from "./Index_Page_Components/WhereToButton";
+import Link from "next/link"; // Import Link from next/link
 
 const User = () => {
   return (
@@ -15,29 +14,35 @@ const User = () => {
       </MapWrapper>
       <ActionItems>
         <ActionButtons>
-          <ActionButtonContainer>
-            <ActionButton
-              src="/images/box-truck.jpg"
-              type="Book"
-            />
-            <ActionLabel>Book</ActionLabel>
-          </ActionButtonContainer>
+          <Link href="/search">  
+            <ActionButtonContainer>
+              <ActionButtonStyled
+                src="/images/box-truck.jpg"
+                type="Book"
+              />
+              <ActionLabel>Book</ActionLabel>
+            </ActionButtonContainer>
+          </Link>
 
-          <ActionButtonContainer>
-            <ActionButton
-              src="/images/statusimg.jpeg"
-              type="Status"
-            />
-            <ActionLabel>Status</ActionLabel>
-          </ActionButtonContainer>
+          <Link href="/status"> 
+            <ActionButtonContainer>
+              <ActionButtonStyled
+                src="/images/statusimg.jpeg"
+                type="Status"
+              />
+              <ActionLabel>Status</ActionLabel>
+            </ActionButtonContainer>
+          </Link>
 
-          <ActionButtonContainer>
-            <ActionButton
-              src="/images/reserveimg.jpeg"
-              type="Reserve"
-            />
-            <ActionLabel>Reserve</ActionLabel>
-          </ActionButtonContainer>
+          <Link href="/search"> 
+            <ActionButtonContainer>
+              <ActionButtonStyled
+                src="/images/reserveimg.jpeg"
+                type="Reserve"
+              />
+              <ActionLabel>Reserve</ActionLabel>
+            </ActionButtonContainer>
+          </Link>
         </ActionButtons>
       </ActionItems>
     </Wrapper>
@@ -72,10 +77,25 @@ const ActionButtons = tw.div`
 
 const ActionButtonContainer = tw.div`
   flex flex-col items-center
+  p-3
+  bg-gray-100
+  rounded-xl
+  border-gray-300
+  shadow-md
+  hover:shadow-lg
+  transition
+  cursor-pointer
+  w-full
+`;
+
+const ActionButtonStyled = tw.img`
+  w-full
+  h-24
+  rounded-2xl
 `;
 
 const ActionLabel = tw.p`
-  mt-2 text-gray-600 text-lg font-medium
+  mt-2 text-gray-700 text-sm font-medium
 `;
 
 export default User;
