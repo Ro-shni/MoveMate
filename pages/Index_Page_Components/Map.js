@@ -10,7 +10,7 @@ const Map = ({ pickupcoord, dropoffcoord, driverLocation }) => {
     // Create a new map instance
     const map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/dark-v10",
       center: [-99.29011, 39.39172], // Default center coordinates
       zoom: 3,
     });
