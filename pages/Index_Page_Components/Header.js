@@ -33,7 +33,7 @@ const Header = () => {
   }
   return (
     <Wrapper>
-      <UberLogo src="/images/logo.jpeg" />
+      <UberLogo src="/images/logo.png" />
       <Profile>
         <Name>{user&& namePicker()}</Name>
         <UsrImg src={user&&user.photoUrl} onClick = {()=>{signOut(auth)}}/>
