@@ -38,7 +38,7 @@ const AdminLogin = () => {
       </UberLogo>
       <LoginPrompt>Log in as Admin to access your dashboard</LoginPrompt>
       <LoginImg>
-        <Img src="https://i.ibb.co/CsV9RYZ/login-image.png" />
+        <Img src="/images/loginimg.png" />
       </LoginImg>
       <SignInWithGoogle onClick={handleLogin}>
         <SignIn>Sign in with Google</SignIn>
