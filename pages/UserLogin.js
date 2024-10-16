@@ -31,7 +31,7 @@ const UserLogin = () => {
     return (
         <Wrapper>
             <UberLogo>
-                <Logo src="/images/logo.jpeg" />
+                <Logo src="/images/logo.png" />
             </UberLogo>
             <LoginPrompt>
                 User Login: Log in to access your account
