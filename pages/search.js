@@ -33,12 +33,16 @@ const Search = () => {
             />
           </InputBoxes>
         </FormRow>
-        <PlusIcon src="https://img.icons8.com/ios/50/000000/plus-math.png" />
       </InputContainer>
-      <SavedPlaces>
-        <StarIcon src="https://img.icons8.com/ios-filled/50/ffffff/star--v1.png" />
-        Saved Places
-      </SavedPlaces>
+
+      <SavedPlacesContainer>
+        <SavedPlaces>
+          <StarIcon src="https://img.icons8.com/ios-filled/50/ffffff/star--v1.png" />
+          Saved Places
+        </SavedPlaces>
+        <PlusIcon src="https://img.icons8.com/ios/50/000000/plus-math.png" />
+      </SavedPlacesContainer>
+
       <Link
         href={{
           pathname: "/confirm",
@@ -72,17 +76,25 @@ const BackButton = tw.img`
   h-12
 `;
 
+const SavedPlacesContainer = tw.div`
+  flex 
+  items-center 
+  justify-between 
+  bg-white 
+  p-4 
+  rounded-lg 
+  shadow-lg 
+  mb-4 
+  transition 
+  duration-300 
+  hover:shadow-xl
+`;
+
 const SavedPlaces = tw.div`
   flex
   items-center
-  bg-white
-  p-4
-  rounded-lg
-  shadow-lg
-  mb-4
-  transition
-  duration-300
-  hover:shadow-xl
+  text-lg
+  font-medium
 `;
 
 const InputContainer = tw.div`
@@ -91,6 +103,7 @@ const InputContainer = tw.div`
   justify-center
   items-center
   mt-4
+  w-full
 `;
 
 const FormRow = tw.div`
@@ -113,6 +126,7 @@ const Square = tw.img`
 
 const StarIcon = tw.img`
   h-5
+  mr-2
 `;
 
 const FormToIcons = tw.div`
@@ -146,7 +160,9 @@ const PlusIcon = tw.img`
   bg-gray-200 
   rounded-full 
   ml-3
-  mb-4
+  hover:bg-gray-300
+  transition
+  duration-300
 `;
 
 const ConfirmButtonContainer = tw.div`
