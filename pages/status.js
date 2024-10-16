@@ -44,7 +44,7 @@ return (
 <Title>Check Driver Status</Title>
 <Input
 type="text"
-placeholder="Enter Driver ID"
+placeholder="Enter Tracking ID"
 value={driverId}
 onChange={(e) => setDriverId(e.target.value)}
 />
