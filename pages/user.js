@@ -90,7 +90,7 @@ const ActionButtonContainer = tw.div`
 
 const ActionButtonStyled = tw.img`
   w-full
-  h-24
+  h-16
   rounded-2xl
 `;
 
