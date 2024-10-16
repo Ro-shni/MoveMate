@@ -31,7 +31,7 @@ const DriverLogin = () => {
     return (
         <Wrapper>
             <UberLogo>
-                <Logo src="/images/logo.jpeg" />
+                <Logo src="/images/logo.png" />
             </UberLogo>
             <LoginPrompt>
                 Driver Login: Log in to access your dashboard
