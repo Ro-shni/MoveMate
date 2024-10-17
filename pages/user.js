@@ -34,11 +34,11 @@ const User = () => {
             </ActionButtonContainer>
           </Link>
 
-          <Link href="/search"> 
+          <Link href="/UserDashboard"> 
             <ActionButtonContainer>
               <ActionButtonStyled
                 src="/images/reserveimg.jpeg"
-                type="Reserve"
+                type="Orders"
               />
               <ActionLabel>Reserve</ActionLabel>
             </ActionButtonContainer>
