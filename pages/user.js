@@ -40,7 +40,7 @@ const User = () => {
                 src="/images/reserveimg.jpeg"
                 type="Orders"
               />
-              <ActionLabel>Reserve</ActionLabel>
+              <ActionLabel>Orders</ActionLabel>
             </ActionButtonContainer>
           </Link>
         </ActionButtons>
