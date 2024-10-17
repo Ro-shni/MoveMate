@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import RideSelector from "./Index_Page_Components/RideSelector";
 import Link from "next/link";
 import { db } from '../firebase';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc } from "firebase/firestore"; // Ensure 'doc' is imported
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // Import Firebase Auth
 import { getAnalytics, logEvent } from "firebase/analytics"; 
 
 const Confirm = () => {
@@ -16,9 +17,8 @@ const Confirm = () => {
   const [dropoffcoord, setDropoffCoord] = useState([0, 0]);
   const [chosenCar, setChosenCar] = useState(null);
   const [rideDuration, setRideDuration] = useState(null);
+  const [user, setUser] = useState(null); // Add state for user
   const [analytics, setAnalytics] = useState(null); 
-
-  //const analytics = getAnalytics();
 
   // Fetch pickup coordinates
   const getPickupCoord = useCallback((pickup) => {
@@ -72,22 +72,41 @@ const Confirm = () => {
       });
   }, [pickupcoord, dropoffcoord]);
 
+  // Monitor pickup and dropoff changes
   useEffect(() => {
     if (pickup) getPickupCoord(pickup);
     if (dropoff) getDropoffCoord(dropoff);
   }, [pickup, dropoff, getPickupCoord, getDropoffCoord]);
 
+  // Fetch ride duration when coordinates are available
   useEffect(() => {
     if (pickupcoord && dropoffcoord) {
       fetchRideDuration();
     }
   }, [pickupcoord, dropoffcoord, fetchRideDuration]);
 
+  // Set up Firebase Analytics
   useEffect(() => {
     const analyticsInstance = getAnalytics();
     setAnalytics(analyticsInstance);
   }, []);
 
+  // Listen for user authentication state
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+        router.push('/login'); // Redirect to login if not authenticated
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  // Handle the confirm button click
   const handleConfirm = async () => {
     if (chosenCar && rideDuration) {
       try {
@@ -96,26 +115,40 @@ const Confirm = () => {
           dropoff: dropoff,
           car: chosenCar.service,
           price: (rideDuration * chosenCar.multiplier).toFixed(2),
-          status: "Pending", 
+          status: "Pending", // Status of the ride
         };
 
+        // Store ride request in Firestore
         const docRef = await addDoc(collection(db, "rideRequests"), rideRequest);
 
-        logEvent(analytics, 'ride_requested', {
-          pickup: pickup,
-          dropoff: dropoff,
-          car: chosenCar.service,
-          price: (rideDuration * chosenCar.multiplier).toFixed(2),
-        });
+        // Add trackingId to user's document under trackingIds subcollection
+        if (user) {
+          const userDocRef = doc(db, "users", user.email);
+          await addDoc(collection(userDocRef, "trackingIds"), {
+            requestId: docRef.id,
+            ...rideRequest,
+          });
 
-        router.push(`/tracking?requestId=${docRef.id}`);
+          // Log ride request event in analytics
+          if (analytics) {
+            logEvent(analytics, 'ride_requested', {
+              pickup: pickup,
+              dropoff: dropoff,
+              car: chosenCar.service,
+              price: (rideDuration * chosenCar.multiplier).toFixed(2),
+            });
+          }
+
+          // Redirect to tracking page
+          router.push(`/tracking?requestId=${docRef.id}`);
+        } else {
+          alert("User is not authenticated.");
+        }
       } catch (error) {
         console.error("Error creating ride request:", error);
       }
-    } else if (!chosenCar) {
-      alert("Please select a Vehicle first!");
     } else {
-      alert("Unable to calculate ride duration.");
+      alert("Please select a car first!");
     }
   };
 
@@ -169,3 +202,4 @@ const ButtonContainer = tw.div`
 const BackButton = tw.img`
   h-full object-contain
 `;
+
